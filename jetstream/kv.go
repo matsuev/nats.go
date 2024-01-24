@@ -23,8 +23,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/internal/parser"
+	"github.com/matsuev/nats.go"
+	"github.com/matsuev/nats.go/internal/parser"
 )
 
 // Public interfaces and structs

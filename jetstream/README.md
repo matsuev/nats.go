@@ -53,11 +53,11 @@ JetStream API. Key differences between `jetstream` and `nats` packages include:
 - `Msg` - used for message-specific operations - reading data, headers and
   metadata, as well as performing various types of acknowledgements
 
-> __NOTE__: `jetstream` requires nats-server >= 2.9.0 to work correctly.
+> **NOTE**: `jetstream` requires nats-server >= 2.9.0 to work correctly.
 
-> __WARNING__: The new API is currently provided as a _preview_, and will
+> **WARNING**: The new API is currently provided as a _preview_, and will
 > deprecate previous JetStream subscribe APIs. It is encouraged to start
-experimenting with the new APIs as soon as possible.
+> experimenting with the new APIs as soon as possible.
 
 ## Basic usage
 
@@ -70,8 +70,8 @@ import (
     "strconv"
     "time"
 
-    "github.com/nats-io/nats.go"
-    "github.com/nats-io/nats.go/jetstream"
+    "github.com/matsuev/nats.go"
+    "github.com/matsuev/nats.go/jetstream"
 )
 
 func main() {
@@ -370,14 +370,14 @@ The `Consumer` interface covers allows fetching messages on demand, with
 pre-defined batch size on bytes limit, or continuous push-like receiving of
 messages.
 
-#### __Single fetch__
+#### **Single fetch**
 
 This pattern pattern allows fetching a defined number of messages in a single
 RPC.
 
 - Using `Fetch` or `FetchBytes`, consumer will return up to the provided number
-of messages/bytes. By default, `Fetch()` will wait 30 seconds before timing out
-(this behavior can be configured using `FetchMaxWait()` option):
+  of messages/bytes. By default, `Fetch()` will wait 30 seconds before timing out
+  (this behavior can be configured using `FetchMaxWait()` option):
 
 ```go
 // receive up to 10 messages from the stream
@@ -413,10 +413,10 @@ if msgs.Error() != nil {
 }
 ```
 
-> __Warning__: Both `Fetch()` and `FetchNoWait()` have worse performance when
+> **Warning**: Both `Fetch()` and `FetchNoWait()` have worse performance when
 > used to continuously retrieve messages in comparison to `Messages()` or
-`Consume()` methods, as they do not perform any optimizations (pre-buffering)
-and new subscription is created for each execution.
+> `Consume()` methods, as they do not perform any optimizations (pre-buffering)
+> and new subscription is created for each execution.
 
 #### Continuous polling
 
@@ -451,20 +451,20 @@ the behavior of a single pull request:
 
 - `PullMaxMessages(int)` - up to provided number of messages will be buffered
 - `PullMaxBytes(int)` - up to provided number of bytes will be buffered. This
-setting and `PullMaxMessages` are mutually exclusive
+  setting and `PullMaxMessages` are mutually exclusive
 - `PullExpiry(time.Duration)` - timeout on a single pull request to the server
-type PullThresholdMessages int
+  type PullThresholdMessages int
 - `PullThresholdMessages(int)` - amount of messages which triggers refilling the
   buffer
 - `PullThresholdBytes(int)` - amount of bytes which triggers refilling the
   buffer
 - `PullHeartbeat(time.Duration)` - idle heartbeat duration for a single pull
-request. An error will be triggered if at least 2 heartbeats are missed
+  request. An error will be triggered if at least 2 heartbeats are missed
 - `WithConsumeErrHandler(func (ConsumeContext, error))` - when used, sets a
   custom error handler on `Consume()`, allowing e.g. tracking missing
   heartbeats.
 
-> __NOTE__: `Stop()` should always be called on `ConsumeContext` to avoid
+> **NOTE**: `Stop()` should always be called on `ConsumeContext` to avoid
 > leaking goroutines.
 
 ##### Using `Messages()` to iterate over incoming messages
@@ -495,16 +495,16 @@ iter, _ := cons.Messages(jetstream.PullMaxMessages(10), jetstream.PullMaxBytes(1
 
 - `PullMaxMessages(int)` - up to provided number of messages will be buffered
 - `PullMaxBytes(int)` - up to provided number of bytes will be buffered. This
-setting and `PullMaxMessages` are mutually exclusive
+  setting and `PullMaxMessages` are mutually exclusive
 - `PullExpiry(time.Duration)` - timeout on a single pull request to the server
-type PullThresholdMessages int
+  type PullThresholdMessages int
 - `PullThresholdMessages(int)` - amount of messages which triggers refilling the
   buffer
 - `PullThresholdBytes(int)` - amount of bytes which triggers refilling the
   buffer
 - `PullHeartbeat(time.Duration)` - idle heartbeat duration for a single pull
-request. An error will be triggered if at least 2 heartbeats are missed (unless
-`WithMessagesErrOnMissingHeartbeat(false)` is used)
+  request. An error will be triggered if at least 2 heartbeats are missed (unless
+  `WithMessagesErrOnMissingHeartbeat(false)` is used)
 
 ##### Using `Messages()` to fetch single messages one by one
 
@@ -538,7 +538,7 @@ for {
 
 `JetStream` interface allows publishing messages on stream in 2 ways:
 
-### __Synchronous publish__
+### **Synchronous publish**
 
 ```go
 js, _ := jetstream.New(nc)
@@ -560,7 +560,7 @@ setting various headers. Additionally, for `PublishMsg()` headers can be set
 directly on `nats.Msg`.
 
 ```go
-// All 3 implementations are work identically 
+// All 3 implementations are work identically
 ack, err := js.PublishMsg(ctx, &nats.Msg{
     Data:    []byte("hello"),
     Subject: "ORDERS.new",
@@ -577,7 +577,7 @@ ack, err = js.PublishMsg(ctx, &nats.Msg{
 ack, err = js.Publish(ctx, "ORDERS.new", []byte("hello"), jetstream.WithMsgID("id"))
 ```
 
-### __Async publish__
+### **Async publish**
 
 ```go
 js, _ := jetstream.New(nc)
@@ -605,4 +605,4 @@ options for setting headers.
 
 ## Examples
 
-You can find more examples of `jetstream` usage [here](https://github.com/nats-io/nats.go/tree/main/examples/jetstream).
+You can find more examples of `jetstream` usage [here](https://github.com/matsuev/nats.go/tree/main/examples/jetstream).

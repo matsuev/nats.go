@@ -29,7 +29,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nats-io/nats.go/internal/parser"
+	"github.com/matsuev/nats.go/internal/parser"
 	"github.com/nats-io/nuid"
 )
 

@@ -23,7 +23,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go"
+	"github.com/matsuev/nats.go"
 )
 
 func TestContextRequestWithNilConnection(t *testing.T) {

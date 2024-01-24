@@ -1,15 +1,16 @@
 # NATS - Go Client
+
 A [Go](http://golang.org) client for the [NATS messaging system](https://nats.io).
 
 [![License Apache 2][License-Image]][License-Url] [![Go Report Card][ReportCard-Image]][ReportCard-Url] [![Build Status][Build-Status-Image]][Build-Status-Url] [![GoDoc][GoDoc-Image]][GoDoc-Url] [![Coverage Status][Coverage-image]][Coverage-Url]
 
 [License-Url]: https://www.apache.org/licenses/LICENSE-2.0
 [License-Image]: https://img.shields.io/badge/License-Apache2-blue.svg
-[ReportCard-Url]: https://goreportcard.com/report/github.com/nats-io/nats.go
-[ReportCard-Image]: https://goreportcard.com/badge/github.com/nats-io/nats.go
+[ReportCard-Url]: https://goreportcard.com/report/github.com/matsuev/nats.go
+[ReportCard-Image]: https://goreportcard.com/badge/github.com/matsuev/nats.go
 [Build-Status-Url]: https://travis-ci.com/github/nats-io/nats.go
 [Build-Status-Image]: https://travis-ci.com/nats-io/nats.go.svg?branch=main
-[GoDoc-Url]: https://pkg.go.dev/github.com/nats-io/nats.go
+[GoDoc-Url]: https://pkg.go.dev/github.com/matsuev/nats.go
 [GoDoc-Image]: https://img.shields.io/badge/GoDoc-reference-007d9c
 [Coverage-Url]: https://coveralls.io/r/nats-io/nats.go?branch=main
 [Coverage-image]: https://coveralls.io/repos/github/nats-io/nats.go/badge.svg?branch=main
@@ -20,7 +21,7 @@ A [Go](http://golang.org) client for the [NATS messaging system](https://nats.io
 
 ```bash
 # Go client
-go get github.com/nats-io/nats.go/
+go get github.com/matsuev/nats.go/
 
 # Server
 go get github.com/nats-io/nats-server
@@ -30,8 +31,8 @@ When using or transitioning to Go modules support:
 
 ```bash
 # Go client latest or explicit version
-go get github.com/nats-io/nats.go/@latest
-go get github.com/nats-io/nats.go/@v1.32.0
+go get github.com/matsuev/nats.go/@latest
+go get github.com/matsuev/nats.go/@v1.32.0
 
 # For latest NATS Server, add /v2 at the end
 go get github.com/nats-io/nats-server/v2
@@ -43,7 +44,7 @@ go get github.com/nats-io/nats-server/v2
 ## Basic Usage
 
 ```go
-import "github.com/nats-io/nats.go"
+import "github.com/matsuev/nats.go"
 
 // Connect to a server
 nc, _ := nats.Connect(nats.DefaultURL)
@@ -189,10 +190,12 @@ c.Close();
 ```
 
 ## New Authentication (Nkeys and User Credentials)
+
 This requires server with version >= 2.0.0
 
 NATS servers have a new security and authentication mechanism to authenticate with user credentials and Nkeys.
 The simplest form is to use the helper method UserCredentials(credsFilepath).
+
 ```go
 nc, err := nats.Connect(url, nats.UserCredentials("user.creds"))
 ```
@@ -202,16 +205,19 @@ The core client library never has direct access to your private key and simply p
 The helper will load and wipe and erase memory it uses for each connect or reconnect.
 
 The helper also can take two entries, one for the JWT and one for the NKey seed file.
+
 ```go
 nc, err := nats.Connect(url, nats.UserCredentials("user.jwt", "user.nk"))
 ```
 
 You can also set the callback handlers directly and manage challenge signing directly.
+
 ```go
 nc, err := nats.Connect(url, nats.UserJWT(jwtCB, sigCB))
 ```
 
 Bare Nkeys are also supported. The nkey seed should be in a read only file, e.g. seed.txt
+
 ```bash
 > cat seed.txt
 # This is my seed nkey!
